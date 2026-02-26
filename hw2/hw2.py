@@ -56,7 +56,7 @@ class SarcasmDataset(Dataset):
         return {
             'input_ids': encoding['input_ids'].flatten(),
             'attention_mask': encoding['attention_mask'].flatten(),
-            'label': torch.tensor([label], dtype=torch.long)
+            'label': torch.tensor(label, dtype=torch.long)
         }
 
 # --- Model Class ---
@@ -104,7 +104,7 @@ def train_loop(
         for batch in tqdm(dataloader, desc=f"Epoch {epoch+1}/{epochs}"):
             input_ids = batch['input_ids'].to(device)
             attention_mask = batch['attention_mask'].to(device)
-            labels = batch['label'].squeeze(1).to(device)
+            labels = batch['label'].to(device)
 
             optimizer.zero_grad()
             logits = model(input_ids, attention_mask)
